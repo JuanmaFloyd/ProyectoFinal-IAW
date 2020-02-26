@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj": {}
+  },
+  "projects": {
+    "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj",
+        "projectName": "GymApi",
+        "projectPath": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj",
+        "packagesPath": "/home/agus/.nuget/packages/",
+        "outputPath": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/agus/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "(, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
