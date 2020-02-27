@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+    <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+    <h1>These are the Users</h1>   
+    <form action="javascript:void(0);" method="POST" onsubmit="addUser()">
+        <input type="text" id="add-name" placeholder="add-name">
+        <input type="text" id="add-lastname" placeholder="add-lastname">
+        <input type="integer" id="add-dni" placeholder="add-dni">
+        <input type="integer" id="add-age" placeholder="add-age">
+        <input type="submit" value="Add">
+    </form>
+
+    <div id="editForm">
+        <h3>Edit</h3>
+        <form action="javascript:void(0);" method="PUT">
+            <input type="text" id="edit-name">
+            <input type="text" id="edit-lastname">
+            <input type="integer" id="edit-dni">
+            <input type="integer" id="edit-age">
+            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+        </form>
+    </div>
+    
+
+    <table>
+        <tbody id="todos"></tbody>
+    </table>
+
+    
+    <script src="js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        getUsers();
+        closeInput();
+    </script>
+</body>
+</html>
