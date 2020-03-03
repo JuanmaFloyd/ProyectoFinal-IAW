@@ -31,6 +31,14 @@ namespace GymApi
             services.AddDbContext<ModelContext>(opt =>
                opt.UseInMemoryDatabase("UserList"));
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +53,7 @@ namespace GymApi
             app.UseStaticFiles();
 
             app.UseHttpsRedirection();
-
+            app.UseCors("MyPolicy");
             app.UseRouting();
 
             app.UseAuthorization();

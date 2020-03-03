@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj": {}
+    "C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoFinal-IAW\\GymApi\\GymApi.csproj": {}
   },
   "projects": {
-    "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj": {
+    "C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoFinal-IAW\\GymApi\\GymApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoFinal-IAW\\GymApi\\GymApi.csproj",
         "projectName": "GymApi",
-        "projectPath": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/GymApi.csproj",
-        "packagesPath": "/home/agus/.nuget/packages/",
-        "outputPath": "/home/agus/Documentos/UNS/WEB/ProyectoFinal-IAW/GymApi/obj/",
+        "projectPath": "C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoFinal-IAW\\GymApi\\GymApi.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Usuario\\Documents\\GitHub\\ProyectoFinal-IAW\\GymApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/agus/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -36,6 +36,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -53,6 +57,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[1.0.57, )"
             }
           },
           "imports": [
@@ -73,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
