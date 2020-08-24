@@ -1,0 +1,39 @@
+import React from 'react';
+import { Card, CardContent, Typography, CardActions, IconButton, Tooltip} from '@material-ui/core';
+import PersonIcon from "@material-ui/icons/Person";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+    root: {
+      maxWidth: 345,
+    },
+  });
+
+export const CustomerCard = (props) => {
+    const classes = useStyles();
+
+    return(
+        <Card className={classes.root}>
+            <CardContent>
+                <PersonIcon color="primary" />
+                <Typography variant="h5">{props.customer.name}</Typography>
+                <Typography>{"email: "+ props.customer.email}</Typography>
+                <Typography>{"dni: "+ props.customer.dni}</Typography>
+            </CardContent>
+            <CardActions>
+                <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>
+                    <IconButton>
+                        <EditIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Eliminar cliente" aria-label="Eliminar cliente" arrow>
+                    <IconButton onClick={props.delete}>
+                        <DeleteIcon />
+                    </IconButton>
+                </Tooltip>
+            </CardActions>
+        </Card>
+    )
+}
