@@ -5,7 +5,8 @@ const customerSchema = mongoose.Schema({
     name: String,
     dni: String,
     email: String,
-    inst: Number
+    month: Number,
+    year: Number
 })
 
 module.exports = mongoose.model("Customer", customerSchema);

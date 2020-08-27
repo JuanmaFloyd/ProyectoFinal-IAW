@@ -49,13 +49,24 @@ app.get("/user", (req, res) => {
     })
 })
 
+app.get("/user/:id", (req, res) => {
+    Customer.findOne({_id: req.params.id}, (err, user) => {
+        if (err){
+            console.log(err)
+            res.status(500).send();
+        }
+        res.json(user);
+    })
+})
+
 app.post("/user", (req, res) => {
     const customer = new Customer({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         dni: req.body.dni,
         email: req.body.email,
-        inst: 0
+        month: 0,
+        year: 0
     })
 
     customer.save()
@@ -76,6 +87,32 @@ app.put("/user/:id", (req, res) => {
             user.name = req.body.name;
             user.dni = req.body.dni;
             user.email = req.body.email;
+
+            user.save()
+            .then(result => {
+                res.status(200).json({
+                    message: "Customer updated",
+                    updatedCustomer: user
+                })
+            })
+            .catch(err => console.log(err))
+        }
+    })
+})
+
+app.put("/pay/:id", (req, res) => {
+    var id = req.params.id;
+    var date = new Date();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+
+    Customer.findOne({_id: id}, (err, user) => {
+        if (err){
+            console.log(err);
+            res.status(500).send();
+        } else {
+            user.month = month;
+            user.year = year;
 
             user.save()
             .then(result => {

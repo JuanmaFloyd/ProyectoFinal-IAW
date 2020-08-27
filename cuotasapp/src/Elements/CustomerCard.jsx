@@ -4,6 +4,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles({
 
 export const CustomerCard = (props) => {
     const classes = useStyles();
+    const history = useHistory();
 
     return(
         <Card className={classes.root}>
@@ -24,8 +26,8 @@ export const CustomerCard = (props) => {
             </CardContent>
             <CardActions>
                 <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>
-                    <IconButton>
-                        <EditIcon />
+                    <IconButton onClick={() => history.push("/customer/"+props.customer._id)}>
+                            <EditIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Eliminar cliente" aria-label="Eliminar cliente" arrow>

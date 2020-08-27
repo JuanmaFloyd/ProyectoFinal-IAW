@@ -21,7 +21,7 @@ export const CustomersView = () => {
         <Grid container spacing={3}>
         { customers ? (
             customers.map((customer) => 
-                <Grid item xs={12} sm={6} md={4} key={customer._id}>
+                <Grid item xs={10} sm={6} md={4} key={customer._id}>
                     <CustomerCard 
                         customer={customer} 
                         delete={() => 
