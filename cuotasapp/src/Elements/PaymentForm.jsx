@@ -1,9 +1,12 @@
 import React from 'react'
 import { useEffect } from 'react'
 import swal from 'sweetalert';
+import { Button } from '@material-ui/core';
+import Axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export const PaymentForm = (props) => {
-    var doSubmit = false;
+    const history = useHistory();
     const id = props.location.pathname.split("/")[2];
 
     useEffect(() => {
@@ -54,107 +57,119 @@ export const PaymentForm = (props) => {
         });
     }
 
-    const doPay = (event) => {
-        event.preventDefault();
-        if(!doSubmit){
-            var $form = document.querySelector('#pay');
-    
-            window.Mercadopago.createToken($form, sdkResponseHandler);
-    
-            return false;
+    const doPay = () => {
+        var data = {
+            cardNumber: document.getElementById("cardNumber").value,
+            securityCode: document.getElementById("securityCode").value,
+            cardExpirationMonth: document.getElementById("cardExpirationMonth").value,
+            cardExpirationYear: document.getElementById("cardExpirationYear").value,
+            cardholderName: document.getElementById("cardholderName").value,
+            docType: document.getElementById("docType").value,
+            docNumber: document.getElementById("docNumber").value,
+            installments: document.getElementById("installments").value
         }
+        
+        window.Mercadopago.createToken(data, sdkResponseHandler);
+
+        return false;
     }
 
     const sdkResponseHandler = (status, response) => {
         if (status !== 200 && status !== 201) {
             swal("Revise la información!", "", "error")
         }else{
-            var form = document.querySelector('#pay');
-            var card = document.createElement('input');
-            card.setAttribute('name', 'token');
-            card.setAttribute('type', 'hidden');
-            card.setAttribute('value', response.id);
-            form.appendChild(card);
-            doSubmit = true;
-            form.submit();
+            var data = {
+                transaction_amount: document.getElementById("transaction_amount").value,
+                token: response.id,
+                description: document.getElementById("description").value,
+                installments: document.getElementById("installments").value,
+                payment_method_id: document.getElementById("payment_method_id").value,
+                email: document.getElementById("email").value
+            }
+
+            Axios.post("http://localhost:5001/procesar_pago/"+id, data)
+                .then(res => {
+                    console.log(res);
+                    swal("Pago procesado!", "", "success")
+                        .then(() => {history.push("/customer/"+id)})
+                })
+                .catch(err => swal("El pago no ha podido ser procesado", "", "error"));
         }
     }
 
     return (
         <>
             <div>
-                <form action={"http://localhost:5001/procesar_pago/"+id} className="pt-5" method="post" id="pay" name="pay" onSubmit={doPay} >
-                    <div className="form-group row">
-                        <label for="description" className="col-sm-2 col-form-label">Descripción</label>                  
-                        <div class="col-sm-10">
-                            <input type="text" name="description" id="description" defaultValue="Ítem seleccionado" className="form-control w-75 p-3" />
-                        </div>
-                    </div>                    
-                    <div className="form-group row">
-                        <label for="transaction_amount" className="col-sm-2 col-form-label">Monto a pagar</label>     
-                        <div class="col-sm-10">                   
-                            <input name="transaction_amount" id="transaction_amount" defaultValue="100" className="form-control w-75 p-3" />
-                        </div>
+                <div className="form-group row">
+                    <label htmlFor="description" className="col-sm-2 col-form-label">Descripción</label>                  
+                    <div className="col-sm-10">
+                        <input type="text" name="description" id="description" defaultValue="Ítem seleccionado" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="cardNumber" className="col-sm-2 col-form-label">Número de la tarjeta</label>
-                        <div class="col-sm-10">
-                            <input onChange={guessPaymentMethod} type="text" id="cardNumber" data-checkout="cardNumber" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off" className="form-control w-75 p-3" />
-                        </div>
+                </div>                    
+                <div className="form-group row">
+                    <label htmlFor="transaction_amount" className="col-sm-2 col-form-label">Monto a pagar</label>     
+                    <div className="col-sm-10">                   
+                        <input name="transaction_amount" id="transaction_amount" defaultValue="100" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="cardholderName" className="col-sm-2 col-form-label">Nombre y apellido</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="cardholderName" data-checkout="cardholderName" className="form-control w-75 p-3" />
-                        </div>
-                    </div>                                    
-                    <div className="form-group row">
-                        <label for="cardExpirationMonth" className="col-sm-2 col-form-label">Mes de vencimiento</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off" className="form-control w-75 p-3" />
-                        </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="cardNumber" className="col-sm-2 col-form-label">Número de la tarjeta</label>
+                    <div className="col-sm-10">
+                        <input onChange={guessPaymentMethod} type="text" id="cardNumber" data-checkout="cardNumber" autoComplete="off" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="cardExpirationYear" className="col-sm-2 col-form-label">Año de vencimiento</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off" className="form-control w-75 p-3" />
-                        </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="cardholderName" className="col-sm-2 col-form-label">Nombre y apellido</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="cardholderName" data-checkout="cardholderName" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="securityCode" className="col-sm-2 col-form-label">Código de seguridad</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="securityCode" data-checkout="securityCode" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off" className="form-control w-75 p-3" />
-                        </div>
+                </div>                                    
+                <div className="form-group row">
+                    <label htmlFor="cardExpirationMonth" className="col-sm-2 col-form-label">Mes de vencimiento</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" autoComplete="off" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="installments" className="col-sm-2 col-form-label">Cuotas</label>
-                        <div class="col-sm-10">
-                            <select id="installments" name="installments" className="form-control w-75"></select>
-                        </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="cardExpirationYear" className="col-sm-2 col-form-label">Año de vencimiento</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" autoComplete="off" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="docType" className="col-sm-2 col-form-label">Tipo de documento</label>
-                        <div class="col-sm-10">
-                            <select id="docType" data-checkout="docType" className="form-control w-75"></select>
-                        </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="securityCode" className="col-sm-2 col-form-label">Código de seguridad</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="securityCode" data-checkout="securityCode" autoComplete="off" className="form-control w-75 p-3" />
                     </div>
-                    <div className="form-group row">
-                        <label for="docNumber" className="col-sm-2 col-form-label">Número de documento</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="docNumber" data-checkout="docNumber" className="form-control w-75 p-3" />
-                        </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="installments" className="col-sm-2 col-form-label">Cuotas</label>
+                    <div className="col-sm-10">
+                        <select id="installments" name="installments" className="form-control w-75"></select>
                     </div>
-                    <div className="form-group row">
-                        <label for="email" className="col-sm-2 col-form-label">E-mail</label>
-                        <div class="col-sm-10">
-                            <input type="email" id="email" name="email" defaultValue="test@test.com" className="form-control w-75 p-3" />
-                        </div>
-                    </div>  
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="docType" className="col-sm-2 col-form-label">Tipo de documento</label>
+                    <div className="col-sm-10">
+                        <select id="docType" data-checkout="docType" className="form-control w-75"></select>
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="docNumber" className="col-sm-2 col-form-label">Número de documento</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="docNumber" data-checkout="docNumber" className="form-control w-75 p-3" />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="email" className="col-sm-2 col-form-label">E-mail</label>
+                    <div className="col-sm-10">
+                        <input type="email" id="email" name="email" defaultValue="test@test.com" className="form-control w-75 p-3" />
+                    </div>
+                </div>  
+                
+                <input type="hidden" name="payment_method_id" id="payment_method_id"/>
                     
-                    <input type="hidden" name="payment_method_id" id="payment_method_id"/>
-                    
-                    <input type="submit" value="Pagar" className="btn btn-primary" />
-                </form>
+                    <Button variant="contained" color="primary" onClick={doPay}>Pagar</Button>
             </div>
         </>
     )

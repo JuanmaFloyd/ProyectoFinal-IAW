@@ -138,6 +138,7 @@ app.delete("/user/:id", (req, res) => {
 })
 
 app.post("/procesar_pago/:id", (req, res) => {
+    console.log(req.body)
     var id = req.params.id;
     var payment_data = {
         transaction_amount: parseInt(req.body.transaction_amount),
@@ -149,6 +150,7 @@ app.post("/procesar_pago/:id", (req, res) => {
             email: req.body.email
         }
     };
+    console.log(payment_data)
      
     mercadopago.payment.save(payment_data).then(function (data) {
         console.log(data);
@@ -167,10 +169,11 @@ app.post("/procesar_pago/:id", (req, res) => {
                 user.save().catch(err => console.log(err))
             }
         })
+        
+        res.json(data)
 
-        res.redirect('http://localhost:3000/customer/'+id)
         }).catch(function (error) {
-            console.log(error);
+            res.json(error)
         });
 })
 
