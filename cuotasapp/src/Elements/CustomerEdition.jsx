@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Container, colors } from "@material-ui/core";
+import { TextField, Button, Container, Typography } from "@material-ui/core";
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import { useHistory } from 'react-router-dom';
 
 export const CustomerEdition = (props) => {
     const { enqueueSnackbar } = useSnackbar();
+    const history = useHistory();
     const id = props.location.pathname.split("/")[2];
     const [name, setName] = useState("");
     const [dni, setDNI] = useState("");
     const [email, setEmail] = useState("");
+    const [month, setMonth] = useState("");
+    const [year, setYear] = useState("");
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentYear = date.getFullYear();
 
     useEffect(() => {
         axios.get('http://localhost:5001/user/'+id)
@@ -18,6 +25,8 @@ export const CustomerEdition = (props) => {
                 setName(response.data.name);
                 setDNI(response.data.dni);
                 setEmail(response.data.email);
+                setMonth(response.data.month);
+                setYear(response.data.year);
             })
             .catch(error => {
                 console.log(error);
@@ -40,11 +49,6 @@ export const CustomerEdition = (props) => {
     }
 
     const handleCash = () => {
-        var data = {
-            name: name,
-            dni: dni,
-            email: email
-        }
         axios.put('http://localhost:5001/pay/'+id)
             .then(response => {
                 enqueueSnackbar("Cuota pagada!", {variant: "success"});
@@ -52,6 +56,16 @@ export const CustomerEdition = (props) => {
             .catch(error => {
                 console.log(error)
             })
+    }
+
+    const hasPayed = () => {
+        if (year < currentYear)
+            return false;
+        else { 
+            if (month === currentMonth || month > currentMonth) 
+                return true;
+            else return false;
+        }
     }
     
     return (
@@ -71,11 +85,13 @@ export const CustomerEdition = (props) => {
                 </div>
             </div>
             <div>
-                <div>
+                { (hasPayed() === false) ?
+                <div> 
+                    
                     <Button 
                         variant="contained" 
                         color="primary" 
-                        onClick={handleUpdate} 
+                        onClick={() => history.push("/payment/"+id)} 
                         className="mx-3"
                         startIcon={<CreditCardIcon />}
                     >
@@ -90,7 +106,7 @@ export const CustomerEdition = (props) => {
                     >
                         Pagar cuota en efectivo
                     </Button>
-                </div>
+                </div> : <Typography>Este usuario tiene la cuota al día</Typography>}
             </div>
         </Container>
     )
