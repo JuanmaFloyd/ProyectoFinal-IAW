@@ -48,7 +48,7 @@ export const AddButton = props => {
                     dni: document.getElementById("dniField").value,
                     email: document.getElementById("emailField").value
                 }
-                axios.post('http://localhost:5001/user', data)
+                axios.post('http://localhost:5001/user', data, {"headers": {"token": localStorage.getItem("token")}})
                     .then(res => props.click(res.data))
                     .catch(err => console.log(err));
             }

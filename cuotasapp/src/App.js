@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import { PaymentForm } from './Elements/PaymentForm';
-import { CustomersView } from './Elements/CustomersView';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { CustomerEdition } from './Elements/CustomerEdition';
 import { SnackbarProvider } from 'notistack';
+import { LogInView } from './Elements/LogInView';
+import AuthRoutes from './AuthRoutes';
+import { AuthMiddleware } from './Middleware/AuthMiddleware';
 
 function App() {
   return (
@@ -18,9 +18,10 @@ function App() {
       <div className="App">
         <Router>
           <Switch>
-            <Route exact path="/" component={CustomersView} />
-            <Route exact path="/payment/:id" component={PaymentForm} />
-            <Route exact path="/customer/:id" component={CustomerEdition} />
+            <Route exact path="/" component={LogInView} />
+            <AuthMiddleware>
+              <Route path="/admin" component={AuthRoutes} />
+            </AuthMiddleware>
           </Switch>
         </Router>
       </div>

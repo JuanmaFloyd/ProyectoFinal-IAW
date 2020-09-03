@@ -1,7 +1,13 @@
 const express = require("express");
 const mercadopago = require("mercadopago");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+const verify = require("./verifyToken")
 const Customer = require("../cuotas_api/models/Customer");
+const User = require("../cuotas_api/models/User");
+const { json } = require("express");
 
 var url = "mongodb+srv://admin:admin@cuotas-app.78abe.mongodb.net/cuotas-app?retryWrites=true&w=majority"
 
@@ -12,6 +18,8 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
 const app = express();
 const port = 5001;
 
+dotenv.config();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
@@ -20,10 +28,10 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
     // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE, OPTIONS');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept, Authorization, token');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -37,7 +45,46 @@ app.get("/", (req, res) => {
     res.redirect("/user")
 })
 
-app.get("/user", (req, res) => {
+app.get("/isAuth", (req, res) => {
+    const token = req.header("token");
+    if (!token) return res.status(401).send("No autenticado");
+
+    try{
+        jwt.verify(token, process.env.TOKEN_SECRET);
+        res.status(200).send();
+    } catch(err){
+        res.status(400).send("Token invalido");
+    } 
+})
+
+app.post("/signup", async (req, res) => {
+    var salt = await bcrypt.genSalt(10);
+    var hashPwd = await bcrypt.hash(req.body.password, salt);
+
+    const user = new User({
+        _id: new mongoose.Types.ObjectId(),
+        nickname: req.body.nickname,
+        email: req.body.email,
+        password: hashPwd
+    })
+
+    user.save()
+        .then(res => res.send(res))
+        .catch(err => res.status(400).send(err))
+})
+
+app.post("/signin", async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
+    if (!user) return res.status(400).send("Email incorrecto");
+
+    const validPwd = await bcrypt.compare(req.body.password, user.password);
+    if (!validPwd) return res.status(400).send("Contraseña incorrecta");
+
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    res.header("token", token).send(token);
+})
+
+app.get("/user", verify, (req, res) => {
     Customer.find({}, (err, all) => {
         var customers = [];
 
@@ -49,7 +96,7 @@ app.get("/user", (req, res) => {
     })
 })
 
-app.get("/user/:id", (req, res) => {
+app.get("/user/:id", verify, (req, res) => {
     Customer.findOne({_id: req.params.id}, (err, user) => {
         if (err){
             console.log(err)
@@ -59,7 +106,7 @@ app.get("/user/:id", (req, res) => {
     })
 })
 
-app.post("/user", (req, res) => {
+app.post("/user", verify, (req, res) => {
     const customer = new Customer({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -76,7 +123,7 @@ app.post("/user", (req, res) => {
         .catch(err => console.log(err))
 })
 
-app.put("/user/:id", (req, res) => {
+app.put("/user/:id", verify, (req, res) => {
     var id = req.params.id;
 
     Customer.findOne({_id: id}, (err, user) => {
@@ -100,7 +147,7 @@ app.put("/user/:id", (req, res) => {
     })
 })
 
-app.put("/pay/:id", (req, res) => {
+app.put("/pay/:id", verify, (req, res) => {
     var id = req.params.id;
     var date = new Date();
     var month = date.getMonth();
@@ -126,7 +173,7 @@ app.put("/pay/:id", (req, res) => {
     })
 })
 
-app.delete("/user/:id", (req, res) => {
+app.delete("/user/:id", verify, (req, res) => {
     var id = req.params.id;
     Customer.findByIdAndRemove({_id: id}, (err) => {
         if (err){
@@ -137,7 +184,7 @@ app.delete("/user/:id", (req, res) => {
     })
 })
 
-app.post("/procesar_pago/:id", (req, res) => {
+app.post("/procesar_pago/:id", verify, (req, res) => {
     console.log(req.body)
     var id = req.params.id;
     var payment_data = {

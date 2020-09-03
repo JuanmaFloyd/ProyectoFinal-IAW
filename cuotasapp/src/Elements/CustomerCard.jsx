@@ -26,7 +26,7 @@ export const CustomerCard = (props) => {
             </CardContent>
             <CardActions>
                 <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>
-                    <IconButton onClick={() => history.push("/customer/"+props.customer._id)}>
+                    <IconButton onClick={() => history.push("/admin/customer/"+props.customer._id)}>
                             <EditIcon />
                     </IconButton>
                 </Tooltip>

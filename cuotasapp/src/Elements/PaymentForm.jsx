@@ -87,7 +87,7 @@ export const PaymentForm = (props) => {
                 email: document.getElementById("email").value
             }
 
-            Axios.post("http://localhost:5001/procesar_pago/"+id, data)
+            Axios.post("http://localhost:5001/procesar_pago/"+id, data, {"headers": {"token": localStorage.getItem("token")}})
                 .then(res => {
                     console.log(res);
                     swal("Pago procesado!", "", "success")

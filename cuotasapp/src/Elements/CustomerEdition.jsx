@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 export const CustomerEdition = (props) => {
     const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
-    const id = props.location.pathname.split("/")[2];
+    const id = props.location.pathname.split("/")[3];
     const [name, setName] = useState("");
     const [dni, setDNI] = useState("");
     const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ export const CustomerEdition = (props) => {
     var currentYear = date.getFullYear();
 
     useEffect(() => {
-        axios.get('http://localhost:5001/user/'+id)
+        axios.get('http://localhost:5001/user/'+id, {"headers": {"token": localStorage.getItem("token")}})
             .then((response) => {
                 setName(response.data.name);
                 setDNI(response.data.dni);
@@ -39,7 +39,7 @@ export const CustomerEdition = (props) => {
             dni: dni,
             email: email
         }
-        axios.put('http://localhost:5001/user/'+id, data)
+        axios.put('http://localhost:5001/user/'+id, data, {"headers": {"token": localStorage.getItem("token")}})
             .then(response => {
                 enqueueSnackbar("Cliente actualizado!", {variant: "success"});
             })
@@ -49,7 +49,7 @@ export const CustomerEdition = (props) => {
     }
 
     const handleCash = () => {
-        axios.put('http://localhost:5001/pay/'+id)
+        axios.put('http://localhost:5001/pay/'+id, {"headers": {"token": localStorage.getItem("token")}})
             .then(response => {
                 enqueueSnackbar("Cuota pagada!", {variant: "success"});
             })
