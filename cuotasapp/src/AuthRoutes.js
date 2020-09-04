@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router
 import { CustomerEdition } from './Elements/CustomerEdition';
 import { PaymentForm } from './Elements/PaymentForm';
 import { CustomersView } from './Elements/CustomersView';
-import { AppBar, Toolbar, IconButton, Typography, makeStyles, Container, Paper } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, makeStyles } from '@material-ui/core';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 const useStyles = makeStyles((theme) => ({

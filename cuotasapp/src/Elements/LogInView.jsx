@@ -4,8 +4,11 @@ import { useState } from 'react';
 import Axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useSnackbar } from 'notistack';
+import swal from '@sweetalert/with-react';
 
 export const LogInView = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const [nick, setNick] = useState("");
     const [newEmail, setNewEmail] = useState("");
@@ -14,9 +17,24 @@ export const LogInView = () => {
     const [pwd, setPwd] = useState("");
 
     useEffect(() => {
-        Axios.get("http://localhost:5001/isAuth", {"headers": {"token": localStorage.getItem("token")}})
+        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": localStorage.getItem("token")}})
             .then(() => history.push("/admin/customer"))
-    })
+            .catch(() => null)
+    }, [history])
+
+    const handleSignup = () => {
+        var data = {
+            nickname: nick,
+            email: newEmail,
+            password: newPwd
+        }
+
+        Axios.post("http://localhost:5001/auth/signup", data)
+            .then(res => {
+                enqueueSnackbar("Cuenta creada!", {variant: "success"});
+            })
+            .catch(err => swal(err.response.data, "", "error"))
+    }
 
     const handleLogin = () => {
         var data = {
@@ -24,27 +42,29 @@ export const LogInView = () => {
             password: pwd
         }
 
-        Axios.post("http://localhost:5001/signin", data)
+        Axios.post("http://localhost:5001/auth/signin", data)
             .then(res => {
                 localStorage.setItem("token", res.data);
                 history.push("/admin/customer");
             })
-            .catch(err => console.log(err))
+            .catch(
+                () => swal("Mail o contraseña incorrectos", "", "error")
+            )
     }
 
     return(
         <Container>
             <Card>
                 <Typography>Nickname</Typography>
-                <TextField></TextField>
+                <TextField onChange={e => setNick(e.target.value)}></TextField>
                 
                 <Typography>Email</Typography>
-                <TextField></TextField>
+                <TextField onChange={e => setNewEmail(e.target.value)}></TextField>
                 
                 <Typography>Password</Typography>
-                <TextField></TextField>
+                <TextField onChange={e => setNewPwd(e.target.value)}></TextField>
                 
-                <Button>Registrarse</Button>
+                <Button onClick={handleSignup}>Registrarse</Button>
             </Card>
             <Card>
                 <Typography>Email</Typography>

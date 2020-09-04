@@ -8,7 +8,7 @@ export const CustomersView = () => {
     const [customers, setCustomers] = useState("");
 
     useEffect(() => {
-        axios.get('http://localhost:5001/user', {"headers": {"token": localStorage.getItem("token")}})
+        axios.get('http://localhost:5001/customers', {"headers": {"token": localStorage.getItem("token")}})
             .then((response) => {
                 setCustomers(response.data);
             })
@@ -25,9 +25,9 @@ export const CustomersView = () => {
                     <CustomerCard 
                         customer={customer} 
                         delete={() => 
-                            axios.delete('http://localhost:5001/user/'+customer._id, {"headers": {"token": localStorage.getItem("token")}})
+                            axios.delete('http://localhost:5001/customers/'+customer._id, {"headers": {"token": localStorage.getItem("token")}})
                             .then(() => {
-                                axios.get('http://localhost:5001/user', {"headers": {"token": localStorage.getItem("token")}})
+                                axios.get('http://localhost:5001/customers', {"headers": {"token": localStorage.getItem("token")}})
                                     .then((response) => {
                                         setCustomers(response.data);
                                     })
