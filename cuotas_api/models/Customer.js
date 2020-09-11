@@ -6,7 +6,8 @@ const customerSchema = mongoose.Schema({
     dni: String,
     email: String,
     month: Number,
-    year: Number
+    year: Number,
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
 module.exports = mongoose.model("Customer", customerSchema);

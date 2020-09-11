@@ -37,15 +37,15 @@ export const CustomersView = () => {
                             }).catch((error) => console.log(error))
                         }
                     />
-                    <AddButton 
-                        click={(data) =>{
-                                setCustomers(customers.concat(data));
-                            }
-                        }
-                    />
                 </Grid>
             )
         ) : null }
+            <AddButton 
+                click={(data) =>{
+                        setCustomers(customers.concat(data));
+                    }
+                }
+            />
         </Grid>
     )
 }

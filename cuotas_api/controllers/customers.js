@@ -4,7 +4,7 @@ const verify = require("../verifyToken")
 const Customer = require("../models/Customer");
 
 router.get("/", verify, (req, res) => {
-    Customer.find({}, (err, all) => {
+    Customer.find({user: req.user._id}, (err, all) => {
         var customers = [];
 
         all.forEach((cus => {
@@ -31,6 +31,7 @@ router.post("/", verify, (req, res) => {
         name: req.body.name,
         dni: req.body.dni,
         email: req.body.email,
+        user: req.user._id,
         month: 0,
         year: 0
     })
