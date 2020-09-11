@@ -8,7 +8,6 @@ const customerRoute = require("./controllers/customers");
 dotenv.config();
 
 mercadopago.configurations.setAccessToken(process.env.PRIVATE_KEY);
-
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
 const app = express();
