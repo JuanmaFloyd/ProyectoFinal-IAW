@@ -38,7 +38,8 @@ export const SignUp = () => {
   const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const [nick, setNick] = useState("");
+  const [name, setName] = useState("");
+  const [last, setLast] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPwd, setNewPwd] = useState("");
 
@@ -50,7 +51,8 @@ export const SignUp = () => {
 
     const handleSignup = () => {
         var data = {
-            nickname: nick,
+            name: name,
+            lastname: last,
             email: newEmail,
             password: newPwd
         }
@@ -84,7 +86,7 @@ export const SignUp = () => {
                 id="firstName"
                 label="Nombre"
                 autoFocus
-                onChange={e => setNick(e.target.value)}
+                onChange={e => setName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -96,6 +98,7 @@ export const SignUp = () => {
                 label="Apellido"
                 name="lastName"
                 autoComplete="lname"
+                onChange={e => setLast(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

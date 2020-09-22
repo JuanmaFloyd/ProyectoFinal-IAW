@@ -49,9 +49,11 @@ export const CustomerEdition = (props) => {
     }
 
     const handleCash = () => {
-        axios.put('http://localhost:5001/customers/'+id+'/cash', {"headers": {"token": localStorage.getItem("token")}})
+        axios.put('http://localhost:5001/customers/'+id+'/cash', null, {"headers": {"token": localStorage.getItem("token")}})
             .then(response => {
                 enqueueSnackbar("Cuota pagada!", {variant: "success"});
+                setMonth(response.data.updatedCustomer.month);
+                setYear(response.data.updatedCustomer.year);
             })
             .catch(error => {
                 console.log(error)
@@ -91,7 +93,7 @@ export const CustomerEdition = (props) => {
                     <Button 
                         variant="contained" 
                         color="primary" 
-                        onClick={() => history.push("/payment/"+id)} 
+                        onClick={() => history.push("/admin/payment/"+id)} 
                         className="mx-3"
                         startIcon={<CreditCardIcon />}
                     >

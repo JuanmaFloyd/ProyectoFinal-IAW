@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 export const PaymentForm = (props) => {
     const history = useHistory();
-    const id = props.location.pathname.split("/")[2];
+    const id = props.location.pathname.split("/")[3];
 
     useEffect(() => {
         window.Mercadopago.setPublishableKey("TEST-bc17f6a0-f7b6-44e0-9e73-8bfd9973b243");
@@ -91,7 +91,7 @@ export const PaymentForm = (props) => {
                 .then(res => {
                     console.log(res);
                     swal("Pago procesado!", "", "success")
-                        .then(() => {history.push("/customer/"+id)})
+                        .then(() => {history.push("/admin/customer/"+id)})
                 })
                 .catch(err => swal("El pago no ha podido ser procesado", "", "error"));
         }
@@ -169,7 +169,7 @@ export const PaymentForm = (props) => {
                 
                 <input type="hidden" name="payment_method_id" id="payment_method_id"/>
                     
-                    <Button variant="contained" color="primary" onClick={doPay}>Pagar</Button>
+                <Button variant="contained" color="primary" onClick={doPay}>Pagar</Button>
             </div>
         </>
     )

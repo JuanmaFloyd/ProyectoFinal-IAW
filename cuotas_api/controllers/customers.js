@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const mercadopago = require("mercadopago");
 const mongoose = require("mongoose");
 const verify = require("../verifyToken")
 const Customer = require("../models/Customer");

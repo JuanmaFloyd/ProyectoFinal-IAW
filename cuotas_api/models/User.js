@@ -1,8 +1,10 @@
+const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    nickname: String,
+    name: String,
+    lastname: String,
     email: String,
     password: String,
     customers: [{type: mongoose.Schema.Types.ObjectId, ref: 'Customer'}]
