@@ -9,12 +9,18 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 const useStyles = makeStyles((theme) => ({
     menuButton: {
       marginRight: theme.spacing(2),
+      marginLeft: "auto"
     },
     title: {
       flexGrow: 1,
     },
     toolbar: {
         marginTop: "5%"
+    },
+    bar: {
+        flexGrow: 1,
+        borderBottom: "3px solid #366385",
+        borderTop: "3px solid #366385",
     }
   }));
 
@@ -29,9 +35,11 @@ function AuthRoutes(){
 
     return(
         <div>
-            <AppBar position="absolute">
+            <AppBar className={classes.bar} position="absolute">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6">CuotasApp</Typography>
+                    <div>
+                        <Typography className={classes.title} variant="h6">CuotasApp</Typography>
+                    </div>
                     <IconButton className={classes.menuButton} onClick={handleLogout}>
                         <PowerSettingsNewIcon />
                     </IconButton>

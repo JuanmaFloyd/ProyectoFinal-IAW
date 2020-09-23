@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { useHistory } from 'react-router-dom';
+import { Spinner } from './Spinner';
 
 export const CustomerEdition = (props) => {
     const { enqueueSnackbar } = useSnackbar();
@@ -71,16 +72,18 @@ export const CustomerEdition = (props) => {
     }
     
     return (
+        name != "" ? (
         <Container>
+            <>
             <div className="d-flex flex-column p-5">
                 <div className="p-2">
-                    <TextField type="text" name="name" id="nameField" placeholder="Nombre" value={name} onChange={e => setName(e.target.value)} fullWidth/>
+                    <TextField type="text" name="name" id="nameField" variant="outlined" label="Nombre" value={name} onChange={e => setName(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-2">
-                    <TextField type="number" name="dni" id="dniField" placeholder="DNI" value={dni} onChange={e => setDNI(e.target.value)} fullWidth/>
+                    <TextField type="number" name="dni" id="dniField" variant="outlined" label="DNI" value={dni} onChange={e => setDNI(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-2">
-                    <TextField type="text" name="email" id="emailField" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} fullWidth/>
+                    <TextField type="text" name="email" id="emailField" variant="outlined" label="Email" value={email} onChange={e => setEmail(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-3">
                     <Button variant="contained" color="primary" onClick={handleUpdate}>Actualizar</Button>
@@ -110,6 +113,8 @@ export const CustomerEdition = (props) => {
                     </Button>
                 </div> : <Typography>Este usuario tiene la cuota al día</Typography>}
             </div>
+        </>
         </Container>
+        ) : <Spinner />
     )
 }

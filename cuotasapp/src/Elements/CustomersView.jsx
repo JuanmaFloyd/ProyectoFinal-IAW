@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
 import { CustomerCard } from './CustomerCard';
 import { AddButton } from './AddButton';
+import { Spinner } from './Spinner';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -30,6 +31,7 @@ export const CustomersView = () => {
     }, [setCustomers])
 
     return (
+        customers ? (
         <Container className={classes.grid} maxWidth="md">
             <Grid container spacing={4}>
             { customers.length > 0 ? (
@@ -61,5 +63,6 @@ export const CustomersView = () => {
                 />
             </Grid>
         </Container>
+        ) : <Spinner />
     )
 }
