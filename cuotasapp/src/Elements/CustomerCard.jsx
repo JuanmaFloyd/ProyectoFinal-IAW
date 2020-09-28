@@ -21,8 +21,8 @@ export const CustomerCard = (props) => {
             <CardContent>
                 <PersonIcon color="primary" />
                 <Typography variant="h5">{props.customer.name}</Typography>
-                <Typography>{"email: "+ props.customer.email}</Typography>
-                <Typography>{"dni: "+ props.customer.dni}</Typography>
+                <Typography>{"Telefono: "+ props.customer.number}</Typography>
+                <Typography>{"DNI: "+ props.customer.dni}</Typography>
             </CardContent>
             <CardActions>
                 <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>

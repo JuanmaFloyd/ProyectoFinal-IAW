@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import { Button } from '@material-ui/core';
 import Axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { BackButton } from './BackButton';
 
 export const PaymentForm = (props) => {
     const history = useHistory();
@@ -87,7 +88,7 @@ export const PaymentForm = (props) => {
                 email: document.getElementById("email").value
             }
 
-            Axios.post("http://localhost:5001/customers/"+id+'/card', data, {"headers": {"token": localStorage.getItem("token")}})
+            Axios.post("http://localhost:5001/customers/"+id+'/card', data, {"headers": {"token": sessionStorage.getItem("token")}})
                 .then(res => {
                     console.log(res);
                     swal("Pago procesado!", "", "success")
@@ -100,6 +101,7 @@ export const PaymentForm = (props) => {
     return (
         <>
             <div>
+                <BackButton link={"/admin/customer/"+id} />
                 <div className="form-group row">
                     <label htmlFor="description" className="col-sm-2 col-form-label">Descripción</label>                  
                     <div className="col-sm-10">

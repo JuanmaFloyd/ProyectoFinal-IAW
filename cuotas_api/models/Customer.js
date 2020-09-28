@@ -4,7 +4,7 @@ const customerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
     dni: String,
-    email: String,
+    number: String,
     month: Number,
     year: Number,
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}

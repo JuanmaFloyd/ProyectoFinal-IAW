@@ -31,7 +31,7 @@ router.post("/", verify, (req, res) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         dni: req.body.dni,
-        email: req.body.email,
+        number: req.body.number,
         user: req.user._id,
         month: 0,
         year: 0
@@ -54,7 +54,7 @@ router.put("/:id", verify, (req, res) => {
         } else {
             user.name = req.body.name;
             user.dni = req.body.dni;
-            user.email = req.body.email;
+            user.number = req.body.number;
 
             user.save()
             .then(result => {

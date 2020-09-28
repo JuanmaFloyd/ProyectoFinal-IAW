@@ -9,7 +9,7 @@ export const AuthMiddleware = (props) => {
     const [auth, setAuth] = useState(false);
 
     useEffect(() => {
-        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": localStorage.getItem("token")}})
+        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": sessionStorage.getItem("token")}})
             .then(() => setAuth(true))
             .catch(() => {
                 swal("Debes estar logueado para acceder a este recurso", "", "error")

@@ -44,7 +44,7 @@ export const SignUp = () => {
   const [newPwd, setNewPwd] = useState("");
 
     useEffect(() => {
-        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": localStorage.getItem("token")}})
+        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": sessionStorage.getItem("token")}})
             .then(() => history.push("/admin/customer"))
             .catch(() => null)
     }, [history])

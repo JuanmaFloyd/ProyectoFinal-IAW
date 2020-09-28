@@ -6,6 +6,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import { useHistory } from 'react-router-dom';
 import { Spinner } from './Spinner';
+import { BackButton } from './BackButton';
 
 export const CustomerEdition = (props) => {
     const { enqueueSnackbar } = useSnackbar();
@@ -13,7 +14,7 @@ export const CustomerEdition = (props) => {
     const id = props.location.pathname.split("/")[3];
     const [name, setName] = useState("");
     const [dni, setDNI] = useState("");
-    const [email, setEmail] = useState("");
+    const [number, setNumber] = useState("");
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
     var date = new Date();
@@ -21,26 +22,26 @@ export const CustomerEdition = (props) => {
     var currentYear = date.getFullYear();
 
     useEffect(() => {
-        axios.get('http://localhost:5001/customers/'+id, {"headers": {"token": localStorage.getItem("token")}})
+        axios.get('http://localhost:5001/customers/'+id, {"headers": {"token": sessionStorage.getItem("token")}})
             .then((response) => {
                 setName(response.data.name);
                 setDNI(response.data.dni);
-                setEmail(response.data.email);
+                setNumber(response.data.number);
                 setMonth(response.data.month);
                 setYear(response.data.year);
             })
             .catch(error => {
                 console.log(error);
             })
-    }, [setDNI, setEmail, setName, id])
+    }, [setDNI, setNumber, setName, id])
 
     const handleUpdate = () => {
         var data = {
             name: name,
             dni: dni,
-            email: email
+            number: number
         }
-        axios.put('http://localhost:5001/customers/'+id, data, {"headers": {"token": localStorage.getItem("token")}})
+        axios.put('http://localhost:5001/customers/'+id, data, {"headers": {"token": sessionStorage.getItem("token")}})
             .then(response => {
                 enqueueSnackbar("Cliente actualizado!", {variant: "success"});
             })
@@ -50,7 +51,7 @@ export const CustomerEdition = (props) => {
     }
 
     const handleCash = () => {
-        axios.put('http://localhost:5001/customers/'+id+'/cash', null, {"headers": {"token": localStorage.getItem("token")}})
+        axios.put('http://localhost:5001/customers/'+id+'/cash', null, {"headers": {"token": sessionStorage.getItem("token")}})
             .then(response => {
                 enqueueSnackbar("Cuota pagada!", {variant: "success"});
                 setMonth(response.data.updatedCustomer.month);
@@ -72,9 +73,9 @@ export const CustomerEdition = (props) => {
     }
     
     return (
-        name != "" ? (
+        name !== "" ? (
         <Container>
-            <>
+            <BackButton link={"/admin/customer/"} />
             <div className="d-flex flex-column p-5">
                 <div className="p-2">
                     <TextField type="text" name="name" id="nameField" variant="outlined" label="Nombre" value={name} onChange={e => setName(e.target.value)} fullWidth/>
@@ -83,7 +84,7 @@ export const CustomerEdition = (props) => {
                     <TextField type="number" name="dni" id="dniField" variant="outlined" label="DNI" value={dni} onChange={e => setDNI(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-2">
-                    <TextField type="text" name="email" id="emailField" variant="outlined" label="Email" value={email} onChange={e => setEmail(e.target.value)} fullWidth/>
+                    <TextField type="text" name="number" id="numberField" variant="outlined" label="Teléfono" value={number} onChange={e => setNumber(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-3">
                     <Button variant="contained" color="primary" onClick={handleUpdate}>Actualizar</Button>
@@ -113,7 +114,6 @@ export const CustomerEdition = (props) => {
                     </Button>
                 </div> : <Typography>Este usuario tiene la cuota al día</Typography>}
             </div>
-        </>
         </Container>
         ) : <Spinner />
     )

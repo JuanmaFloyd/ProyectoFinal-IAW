@@ -29,7 +29,7 @@ function AuthRoutes(){
     const classes = useStyles();
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         history.push("/")
     }
 

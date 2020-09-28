@@ -32,7 +32,7 @@ export const AddButton = props => {
                 </Row>
                 <Row>
                     <Col xs={{ span: 6, offset: 1 }}>
-                        <TextField type="text" name="email" id="emailField" placeholder="E-mail"/>
+                        <TextField type="text" name="number" id="numberField" placeholder="Teléfono"/>
                     </Col>
                 </Row>
             </div>, {
@@ -46,9 +46,9 @@ export const AddButton = props => {
                 var data = {
                     name: document.getElementById("nameField").value,
                     dni: document.getElementById("dniField").value,
-                    email: document.getElementById("emailField").value
+                    number: document.getElementById("numberField").value
                 }
-                axios.post('http://localhost:5001/customers', data, {"headers": {"token": localStorage.getItem("token")}})
+                axios.post('http://localhost:5001/customers', data, {"headers": {"token": sessionStorage.getItem("token")}})
                     .then(res => props.click(res.data))
                     .catch(err => console.log(err));
             }

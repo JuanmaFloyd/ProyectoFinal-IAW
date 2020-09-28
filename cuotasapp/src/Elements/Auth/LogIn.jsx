@@ -40,7 +40,7 @@ export const LogIn = () => {
   const [pwd, setPwd] = useState("");
 
     useEffect(() => {
-        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": localStorage.getItem("token")}})
+        Axios.get("http://localhost:5001/auth/isAuth", {"headers": {"token": sessionStorage.getItem("token")}})
             .then(() => history.push("/admin/customer"))
             .catch(() => null)
     }, [history])
@@ -53,7 +53,7 @@ export const LogIn = () => {
 
         Axios.post("http://localhost:5001/auth/signin", data)
             .then(res => {
-                localStorage.setItem("token", res.data);
+                sessionStorage.setItem("token", res.data);
                 history.push("/admin/customer");
             })
             .catch(
