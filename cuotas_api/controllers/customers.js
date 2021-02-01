@@ -106,7 +106,7 @@ router.delete("/:id", verify, (req, res) => {
 })
 
 router.post("/:id/card", verify, (req, res) => {
-    console.log(req.body)
+    console.log("asd");
     var id = req.params.id;
     var payment_data = {
         transaction_amount: parseInt(req.body.transaction_amount),
@@ -118,8 +118,7 @@ router.post("/:id/card", verify, (req, res) => {
             email: req.body.email
         }
     };
-    console.log(payment_data)
-     
+    
     mercadopago.payment.save(payment_data).then(function (data) {
         console.log(data);
 

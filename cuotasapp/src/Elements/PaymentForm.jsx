@@ -59,6 +59,7 @@ export const PaymentForm = (props) => {
     }
 
     const doPay = () => {
+        window.Mercadopago.clearSession();
         var data = {
             cardNumber: document.getElementById("cardNumber").value,
             securityCode: document.getElementById("securityCode").value,
