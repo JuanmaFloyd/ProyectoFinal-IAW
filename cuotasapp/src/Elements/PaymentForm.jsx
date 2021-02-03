@@ -91,7 +91,6 @@ export const PaymentForm = (props) => {
 
             Axios.post("http://localhost:5001/customers/"+id+'/card', data, {"headers": {"token": sessionStorage.getItem("token")}})
                 .then(res => {
-                    console.log(res);
                     swal("Pago procesado!", "", "success")
                         .then(() => {history.push("/admin/customer/"+id)})
                 })
