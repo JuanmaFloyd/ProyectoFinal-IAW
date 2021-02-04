@@ -112,6 +112,11 @@ export const CustomerEdition = (props) => {
                     >
                         Pagar cuota en efectivo
                     </Button>
+                    <div className="mt-5">
+                        <Typography color="primary" variant="subtitle1">
+                            {(year !== 0) ? "último mes de pago: "+(month+1)+" - "+year : "no realizó pagos aún"}
+                        </Typography>
+                    </div>
                 </div> : <Typography>Este usuario tiene la cuota al día</Typography>}
             </div>
         </Container>

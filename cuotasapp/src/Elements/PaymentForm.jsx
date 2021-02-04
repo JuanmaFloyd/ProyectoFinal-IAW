@@ -1,12 +1,20 @@
 import React from 'react'
 import { useEffect } from 'react'
 import swal from 'sweetalert';
-import { Button } from '@material-ui/core';
+import { Button, Container, makeStyles } from '@material-ui/core';
 import Axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { BackButton } from './BackButton';
 
+const useStyles = makeStyles(theme => ({
+    cont: {
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(8),
+    }
+}))
+
 export const PaymentForm = (props) => {
+    const classes = useStyles();
     const history = useHistory();
     const id = props.location.pathname.split("/")[3];
 
@@ -99,7 +107,7 @@ export const PaymentForm = (props) => {
     }
 
     return (
-        <>
+        <Container className={classes.cont}>
             <div>
                 <BackButton link={"/admin/customer/"+id} />
                 <div className="form-group row">
@@ -165,7 +173,7 @@ export const PaymentForm = (props) => {
                 <div className="form-group row">
                     <label htmlFor="email" className="col-sm-2 col-form-label">E-mail</label>
                     <div className="col-sm-10">
-                        <input type="email" id="email" name="email" defaultValue="test@test.com" className="form-control w-75 p-3" />
+                        <input type="email" id="email" name="email" className="form-control w-75 p-3" />
                     </div>
                 </div>  
                 
@@ -173,6 +181,6 @@ export const PaymentForm = (props) => {
                     
                 <Button variant="contained" color="primary" onClick={doPay}>Pagar</Button>
             </div>
-        </>
+        </Container>
     )
 }

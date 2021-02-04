@@ -15,6 +15,19 @@ const useStyles = makeStyles({
 export const CustomerCard = (props) => {
     const classes = useStyles();
     const history = useHistory();
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentYear = date.getFullYear();
+
+    const hasPayed = () => {
+        if (props.customer.year < currentYear)
+            return false;
+        else { 
+            if (props.customer.month === currentMonth || props.customer.month > currentMonth) 
+                return true;
+            else return false;
+        }
+    }
 
     return(
         <Card className={classes.root}>
@@ -23,6 +36,7 @@ export const CustomerCard = (props) => {
                 <Typography variant="h5">{props.customer.name}</Typography>
                 <Typography>{"Telefono: "+ props.customer.number}</Typography>
                 <Typography>{"DNI: "+ props.customer.dni}</Typography>
+                {hasPayed() ? <Typography color="primary">cuota al día</Typography> : <Typography color="error">debe cuota</Typography>}
             </CardContent>
             <CardActions>
                 <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>
