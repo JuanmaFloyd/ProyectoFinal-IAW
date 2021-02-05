@@ -7,6 +7,8 @@ const customerSchema = mongoose.Schema({
     number: String,
     month: Number,
     year: Number,
+    cMonth: Number,
+    cYear: Number,
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 

@@ -17,6 +17,8 @@ export const CustomerEdition = (props) => {
     const [number, setNumber] = useState("");
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
+    const [cMonth, setCMonth] = useState("");
+    const [cYear, setCYear] = useState("");
     var date = new Date();
     var currentMonth = date.getMonth();
     var currentYear = date.getFullYear();
@@ -29,6 +31,8 @@ export const CustomerEdition = (props) => {
                 setNumber(response.data.number);
                 setMonth(response.data.month);
                 setYear(response.data.year);
+                setCMonth(response.data.cMonth);
+                setCYear(response.data.cYear);
             })
             .catch(error => {
                 console.log(error);
@@ -114,7 +118,7 @@ export const CustomerEdition = (props) => {
                     </Button>
                     <div className="mt-5">
                         <Typography color="primary" variant="subtitle1">
-                            {(year !== 0) ? "último mes de pago: "+(month+1)+" - "+year : "no realizó pagos aún"}
+                            {(year !== 0) ? "último mes de pago: "+(month+1)+"/"+year : "no realizó pagos aún (agregado "+(cMonth+1)+"/"+cYear+")"}
                         </Typography>
                     </div>
                 </div> : <Typography>Este usuario tiene la cuota al día</Typography>}

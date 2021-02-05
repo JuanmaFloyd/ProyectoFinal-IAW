@@ -27,11 +27,17 @@ router.get("/:id", verify, (req, res) => {
 })
 
 router.post("/", verify, (req, res) => {
+    var date = new Date();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+
     const customer = new Customer({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         dni: req.body.dni,
         number: req.body.number,
+        cMonth: month,
+        cYear: year,
         user: req.user._id,
         month: 0,
         year: 0
