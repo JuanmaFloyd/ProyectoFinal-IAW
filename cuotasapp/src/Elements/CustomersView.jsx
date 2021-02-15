@@ -53,6 +53,7 @@ export const CustomersView = () => {
                                     axios.get('http://localhost:5001/customers', {"headers": {"token": sessionStorage.getItem("token")}})
                                         .then((response) => {
                                             setCustomers(response.data);
+                                            setAllCustomers(response.data);
                                         })
                                         .catch((error) => {
                                             console.log(error);
@@ -66,6 +67,7 @@ export const CustomersView = () => {
                 <AddButton 
                     click={(data) =>{
                             setCustomers(customers.concat(data));
+                            setAllCustomers(customers.concat(data));
                         }
                     }
                 />
