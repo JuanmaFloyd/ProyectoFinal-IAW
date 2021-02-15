@@ -33,7 +33,7 @@ export const CustomersView = () => {
     }, [setCustomers])
 
     const handleText = (e) => {
-        const filter = allCustomers.filter(customer => customer.name.includes(e.target.value))
+        const filter = allCustomers.filter(customer => customer.name.toLowerCase().includes(e.target.value.toLowerCase()))
         setCustomers(filter);
     }
 
