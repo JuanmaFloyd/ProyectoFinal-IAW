@@ -85,7 +85,7 @@ export const CustomerEdition = (props) => {
                     <TextField type="text" name="name" id="nameField" variant="outlined" label="Nombre" value={name} onChange={e => setName(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-2">
-                    <TextField type="number" name="dni" id="dniField" variant="outlined" label="DNI" value={dni} onChange={e => setDNI(e.target.value)} fullWidth/>
+                    <TextField disabled type="number" name="dni" id="dniField" variant="outlined" label="DNI" value={dni} onChange={e => setDNI(e.target.value)} fullWidth/>
                 </div>
                 <div className="p-2">
                     <TextField type="text" name="number" id="numberField" variant="outlined" label="Teléfono" value={number} onChange={e => setNumber(e.target.value)} fullWidth/>
@@ -118,7 +118,7 @@ export const CustomerEdition = (props) => {
                     </Button>
                     <div className="mt-5">
                         <Typography color="primary" variant="subtitle1">
-                            {(year !== 0) ? "último mes de pago: "+(month+1)+"/"+year : "no realizó pagos aún (agregado "+(cMonth+1)+"/"+cYear+")"}
+                            {(year !== 0) ? "Último mes de pago: "+(month+1)+"/"+year : "No realizó pagos aún (incorporado en "+(cMonth+1)+"/"+cYear+")"}
                         </Typography>
                     </div>
                 </div> : <Typography>Este usuario tiene la cuota al día</Typography>}

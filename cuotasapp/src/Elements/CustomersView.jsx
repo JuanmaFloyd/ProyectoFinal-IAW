@@ -40,7 +40,7 @@ export const CustomersView = () => {
     return (
         customers ? (
         <Container className={classes.grid} maxWidth="md">
-            <TextField label="filtrar" margin="normal" variant="outlined" onChange={handleText} />
+            <TextField label="Filtrar búsqueda" margin="normal" variant="outlined" onChange={handleText} />
             <Grid container spacing={4}>
             { allCustomers.length > 0 ? (
                 customers.map((customer) => 

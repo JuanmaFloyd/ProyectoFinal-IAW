@@ -36,7 +36,7 @@ export const CustomerCard = (props) => {
                 <Typography variant="h5">{props.customer.name}</Typography>
                 <Typography>{"Telefono: "+ props.customer.number}</Typography>
                 <Typography>{"DNI: "+ props.customer.dni}</Typography>
-                {hasPayed() ? <Typography color="primary">cuota al día</Typography> : <Typography color="error">debe cuota</Typography>}
+                {hasPayed() ? <Typography color="primary">Cuota al día</Typography> : <Typography color="error">Debe cuota</Typography>}
             </CardContent>
             <CardActions>
                 <Tooltip title="Editar cliente" aria-label="Editar cliente" arrow>
